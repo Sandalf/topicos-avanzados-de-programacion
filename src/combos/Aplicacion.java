@@ -22,7 +22,7 @@ public class Aplicacion extends JFrame {
 
 			comboBoxEdoCdMun = new ComboBoxEdoCdMun();
 			comboBoxEdoCdMun.setLocation(0,0);
-			comboBoxEdoCdMun.setSize(300, 30);
+			comboBoxEdoCdMun.setSize(300, 60);
 			comboBoxEdoCdMun.setVisible(true);
 			add(comboBoxEdoCdMun);
 			
