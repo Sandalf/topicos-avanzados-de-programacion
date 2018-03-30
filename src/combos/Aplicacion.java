@@ -1,8 +1,9 @@
 package combos;
 
 import javax.swing.JFrame;
-import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 
+@SuppressWarnings("serial")
 public class Aplicacion extends JFrame {
 
 	private ComboBoxEdoCdMun comboBoxEdoCdMun;
@@ -27,6 +28,7 @@ public class Aplicacion extends JFrame {
 			add(comboBoxEdoCdMun);
 			
 		} catch (Exception e) {
+			JOptionPane.showMessageDialog(this,"Ocurrio un error al inicilizar");
 			e.printStackTrace();
 		}
 
