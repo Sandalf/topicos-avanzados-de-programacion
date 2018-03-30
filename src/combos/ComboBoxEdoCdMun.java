@@ -6,10 +6,13 @@ import java.awt.event.ActionListener;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+@SuppressWarnings("serial")
 public class ComboBoxEdoCdMun extends JPanel implements ActionListener {
 	
 	private JComboBox<String> comBoxEstados;
@@ -17,6 +20,9 @@ public class ComboBoxEdoCdMun extends JPanel implements ActionListener {
 	
 	private ArchivoEstados archivoEstados;
 	private ArchivoMunicipios archivoMunicipios;
+	
+	private Estado estadoSeleccionado = new Estado();
+	private Municipio municipioSeleccionado = new Municipio();
 
 	public ComboBoxEdoCdMun() throws Exception {
 		crearInterfaz();
@@ -52,21 +58,11 @@ public class ComboBoxEdoCdMun extends JPanel implements ActionListener {
 	}
 	
 	public void crearComboBoxMunicipios() throws Exception {		
-		add(new JLabel("Municipios:"));
-		String[] elementosComboBox = crearElementosComboBoxMunicipios();		
-		comBoxMunicipios = new JComboBox<String>(elementosComboBox);
+		add(new JLabel("Municipios:"));	
+		comBoxMunicipios = new JComboBox<String>();
+		comBoxMunicipios.addItem("Seleccionar");
 		comBoxMunicipios.setEnabled(false);
 		add(comBoxMunicipios);
-	}
-	
-	public String[] crearElementosComboBoxMunicipios() throws Exception  {
-		ArrayList<Municipio> listaMunicipios = archivoMunicipios.leerMunicipios();
-		String[] elementos = new String[listaMunicipios.size()+1];
-		elementos[0] = "Seleccionar";
-		for(int i = 1; i < elementos.length; i++) {
-			elementos[i] = listaMunicipios.get(i-1).getNombreMunicipio();
-		}
-		return elementos;
 	}
 	
 	public void inicializarArchivos() throws FileNotFoundException {
@@ -80,9 +76,35 @@ public class ComboBoxEdoCdMun extends JPanel implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		if (e.getSource() == comBoxEstados) {
-			System.out.println("Estado seleccionado");
+		try {
+			if (e.getSource() == comBoxEstados) {
+				String nombreEstado = (String) comBoxEstados.getSelectedItem();		
+				estadoSeleccionado = archivoEstados.buscarEstado(nombreEstado);
+				if (estadoSeleccionado != null) {
+					cargarComboBoxMunicipios();
+				} else {
+					JOptionPane.showMessageDialog(this,"Estado seleccionado no encontrado");
+				}
+			}
+		} catch (Exception e1) {
+			JOptionPane.showMessageDialog(this,"Ocurrio un error");
+			e1.printStackTrace();
 		}
 	}
 	
+	public void cargarComboBoxMunicipios() throws Exception {
+		DefaultComboBoxModel<String> modelo = new DefaultComboBoxModel<String>( obtenerElmentosComboBoxMunicipios() );
+		comBoxMunicipios.setModel(modelo);
+		comBoxMunicipios.setEnabled(true);
+	}
+	
+	public String[] obtenerElmentosComboBoxMunicipios() throws Exception {
+		ArrayList<Municipio> listaMunicipios = archivoMunicipios.buscarMunicipios(estadoSeleccionado.getEstadoId());
+		String[] elementos = new String[listaMunicipios.size()+1];
+		elementos[0] = "Seleccionar";
+		for(int i = 1; i < elementos.length; i++) {
+			elementos[i] = listaMunicipios.get(i-1).getNombreMunicipio();
+		}
+		return elementos;
+	}
 }

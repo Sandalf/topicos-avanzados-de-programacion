@@ -34,6 +34,25 @@ public class ArchivoEstados {
 
 		return estados;		
 	}
+	
+	public Estado buscarEstado(String nombreEstado) throws Exception {
+		Estado estado = new Estado();
+		long longitudArchivo = archivo.length();
+		int longitudRenglon = 56;
+		int cantidadRegistros = (int) (longitudArchivo/longitudRenglon);
+
+		reiniciarPuntero();
+		for(int i = 0; i < cantidadRegistros; i++) {
+			estado.setEstadoId(archivo.readInt());
+			estado.setNombreEstado(archivo.readUTF());
+			
+			if (estado.getNombreEstado().equals(nombreEstado)) {
+				return estado;
+			}
+		}
+
+		return null;		
+	}
 
 	public void reiniciarPuntero() throws IOException {
 		archivo.seek(0);

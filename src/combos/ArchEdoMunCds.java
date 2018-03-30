@@ -73,6 +73,7 @@ public class ArchEdoMunCds {
 
 		ArchEdo.close();
 		ArchMun.close();
+		ArchCds.close();
 	}
 
 }
