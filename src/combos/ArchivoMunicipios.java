@@ -17,7 +17,8 @@ public class ArchivoMunicipios {
 	public ArchivoMunicipios(String nombreArchivo) throws FileNotFoundException {
 		this.archivo = new RandomAccessFile(nombreArchivo,"rw" );
 	}
-
+	
+	//------------------------------------------------------------------------//
 	public ArrayList<Municipio> leerMunicipios() throws Exception {
 
 		ArrayList<Municipio> municipios = new ArrayList<Municipio>();
@@ -37,6 +38,7 @@ public class ArchivoMunicipios {
 		return municipios;		
 	}
 	
+	//------------------------------------------------------------------------//
 	public ArrayList<Municipio> buscarMunicipios(int estadoId) throws Exception {
 
 		ArrayList<Municipio> municipios = new ArrayList<Municipio>();
@@ -57,7 +59,8 @@ public class ArchivoMunicipios {
 
 		return municipios;		
 	}
-
+		
+	//------------------------------------------------------------------------//
 	public void reiniciarPuntero() throws IOException {
 		archivo.seek(0);
 	}

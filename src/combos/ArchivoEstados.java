@@ -54,6 +54,7 @@ public class ArchivoEstados {
 		return null;		
 	}
 
+
 	public void reiniciarPuntero() throws IOException {
 		archivo.seek(0);
 	}

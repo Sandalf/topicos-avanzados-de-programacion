@@ -1,6 +1,6 @@
 package combos;
 
-public class Municipio {
+public class Municipio{
 
 	private Integer estadoId;
 	private Integer municipioId;
