@@ -59,6 +59,27 @@ public class ArchivoMunicipios {
 
 		return municipios;		
 	}
+	
+	//------------------------------------------------------------------------//
+	public Municipio buscarMunicipio(int estadoId, String nombreMunicipio) throws Exception {
+		Municipio municipio = new Municipio();
+		long longitudArchivo = archivo.length();
+		int longitudRenglon = 60;
+		int cantidadRegistros = (int) (longitudArchivo/longitudRenglon);
+
+		reiniciarPuntero();
+		for(int i = 0; i < cantidadRegistros; i++) {
+			municipio.setEstadoId(archivo.readInt());
+			municipio.setMunicipioId(archivo.readInt());
+			municipio.setNombreMunicipio(archivo.readUTF());
+			
+			if (municipio.getNombreMunicipio().equals(nombreMunicipio) && municipio.getEstadoId() == estadoId) {
+				return municipio;
+			}
+		}
+
+		return null;		
+	}
 		
 	//------------------------------------------------------------------------//
 	public void reiniciarPuntero() throws IOException {

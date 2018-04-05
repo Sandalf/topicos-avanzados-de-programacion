@@ -1,9 +1,16 @@
 package combos;
 
+import java.io.IOException;
+
 public class Main {
 
 	public static void main(String[] args) {
-		new Aplicacion();
+		try {
+			ArchEdoMunCds.init();
+			new Aplicacion();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}	
 	}
 
 }

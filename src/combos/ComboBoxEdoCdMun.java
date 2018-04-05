@@ -25,7 +25,7 @@ public class ComboBoxEdoCdMun extends JPanel implements ActionListener {
 	
 	private Estado estadoSeleccionado = new Estado();
 	private Municipio municipioSeleccionado = new Municipio();
-	private Ciudad ciudadSeleccionado = new Ciudad();
+	private Ciudad ciudadSeleccionada = new Ciudad();
 
 	public ComboBoxEdoCdMun() throws Exception {
 		crearInterfaz();
@@ -100,52 +100,15 @@ public class ComboBoxEdoCdMun extends JPanel implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		try {
 			if (e.getSource() == comBoxEstados) {
-				String nombreEstado = (String) comBoxEstados.getSelectedItem();		
-				estadoSeleccionado = archivoEstados.buscarEstado(nombreEstado);
-				if (estadoSeleccionado != null) {
-					cargarComboBoxMunicipios();
-				} else {
-					JOptionPane.showMessageDialog(this,"Estado seleccionado no encontrado");
-				}
-			}
-		} catch (Exception e1) {
-			JOptionPane.showMessageDialog(this,"Ocurrio un error");
-			e1.printStackTrace();
-		}
-		//---------------------EL GRAN PEDO------------------------------//
-		try{
-			if(e.getSource() == comBoxMunicipios){
-				//saco el nombre del estado
-				String nombreEstado = (String) comBoxEstados.getSelectedItem();
-				//lo busco en los archivos
-				estadoSeleccionado = archivoEstados.buscarEstado(nombreEstado);
-				//saco el nombre del municipio
-				String nombreMunicipio = (String) comBoxMunicipios.getSelectedItem();
-				estadoSeleccionado.getEstadoId();
-				
-				int estadoId = estadoSeleccionado.getEstadoId();
-				ArrayList<Municipio> muni = new ArrayList<Municipio>();
-				muni = archivoMunicipios.buscarMunicipios(estadoId);
-				int municipioId = 0;
-				for(int i = 0 ; i < muni.size() ; i++){
-					if(muni.get(i).equals(nombreMunicipio))
-					{
-						municipioId = muni.get(i).getMunicipioId();
-					}
-					
-				}
-				archivoMunicipios.buscarMunicipios(estadoId);
-				archivoCiudades.buscarCiudades(municipioId);
-				if( ciudadSeleccionado.getEstadoId() == estadoId && ciudadSeleccionado.getCiudadId() == municipioId ){
-					cargarComboBoxCiudades();
-				} else{
-					JOptionPane.showMessageDialog(this,"Municipio seleccionado no encontrado");
-				}
-			}
-		}catch(Exception e2)
-		{
-			JOptionPane.showMessageDialog(this,"Ocurrio un error");
-			e2.printStackTrace();
+				seleccionarEstado();
+			} else if(e.getSource() == comBoxMunicipios){
+				seleccionarMuncipio();
+			} else if(e.getSource() == comBoxCiudades){
+				seleccionarCiudad();
+			}	
+		} catch (Exception error) {
+			JOptionPane.showMessageDialog(this,"Ocurrio un error al seleccionar");
+			error.printStackTrace();
 		}
 	}
 	
@@ -173,9 +136,10 @@ public class ComboBoxEdoCdMun extends JPanel implements ActionListener {
 		comBoxCiudades.setModel(modelo);
 		comBoxCiudades.setEnabled(true);
 	}
+	
 	//------------------------------------------------------------------------//	
 	public String[] obtenerElmentosComboBoxCiudades() throws Exception{
-		ArrayList<Ciudad> listaCiudades = archivoCiudades.buscarCiudades(municipioSeleccionado.getMunicipioId());
+		ArrayList<Ciudad> listaCiudades = archivoCiudades.buscarCiudades(estadoSeleccionado.getEstadoId(),municipioSeleccionado.getMunicipioId());
 		String[] elementos = new String[listaCiudades.size()+1];
 		elementos[0] = "Seleccionar";
 		for(int i = 1 ; i < elementos.length ; i++){
@@ -183,4 +147,32 @@ public class ComboBoxEdoCdMun extends JPanel implements ActionListener {
 		}
 		return elementos;
 	}
+	
+	public void seleccionarEstado() throws Exception {
+		String nombreEstado = (String) comBoxEstados.getSelectedItem();		
+		estadoSeleccionado = archivoEstados.buscarEstado(nombreEstado);
+		if (estadoSeleccionado != null) {
+			cargarComboBoxMunicipios();
+		} else {
+			JOptionPane.showMessageDialog(this,"Estado seleccionado no encontrado");
+		}
+	}
+	
+	public void seleccionarMuncipio() throws Exception {
+		String nombreMunicipio = (String) comBoxMunicipios.getSelectedItem();
+		municipioSeleccionado = archivoMunicipios.buscarMunicipio(estadoSeleccionado.getEstadoId(),nombreMunicipio);
+		if(municipioSeleccionado != null) {
+			cargarComboBoxCiudades();
+		} else {
+			JOptionPane.showMessageDialog(this,"Municipio seleccionado no encontrado");
+		}
+	}
+	
+	public void seleccionarCiudad() throws Exception {
+		String nombreCiudad = (String) comBoxCiudades.getSelectedItem();
+		ciudadSeleccionada = archivoCiudades.buscarCiudad(estadoSeleccionado.getEstadoId(),municipioSeleccionado.getMunicipioId(),nombreCiudad);
+		if(municipioSeleccionado == null) {
+			JOptionPane.showMessageDialog(this,"Ciudad seleccionada no encontrado");
+		}
+	} 
 }

@@ -4,7 +4,7 @@ import java.io.*;
 
 public class ArchEdoMunCds {
 
-	public static void main(String[] args) throws IOException {
+	public static void init() throws IOException {
 		File FEdo = new File("Estados.Dat");
 		File FMun = new File("Municipios.Dat");
 		File FCds = new File("Ciudades.Dat");
@@ -46,7 +46,7 @@ public class ArchEdoMunCds {
 		for (int i = 0; i < ArchEdo.length() / 56; i++) {
 			EdoCveEdo = ArchEdo.readInt();
 			EdoNombre = ArchEdo.readUTF();
-			System.out.println(EdoCveEdo + " " + EdoNombre);
+			//System.out.println(EdoCveEdo + " " + EdoNombre);
 			ArchMun.seek(0);
 
 			for (int j = 0; j < ArchMun.length() / 60; j++) {
@@ -54,7 +54,7 @@ public class ArchEdoMunCds {
 				MunCveMun = ArchMun.readInt();
 				MunNombre = ArchMun.readUTF();
 				if (EdoCveEdo == MunCveEdo) {
-					System.out.println("\t" + MunCveEdo + " " + MunCveMun + " " + MunNombre);
+					//System.out.println("\t" + MunCveEdo + " " + MunCveMun + " " + MunNombre);
 					ArchCds.seek(0);
 					for (int k = 0; k < ArchCds.length() / 64; k++) {
 						CdsCveEdo = ArchCds.readInt();
@@ -62,8 +62,9 @@ public class ArchEdoMunCds {
 						CdsCveCd = ArchCds.readInt();
 						CdNombre = ArchCds.readUTF();
 
-						if (EdoCveEdo == CdsCveEdo && MunCveMun == CdsCveMun)
-							System.out.println("\t\t" + CdsCveEdo + " " + CdsCveMun + " " + CdsCveCd + " " + CdNombre);
+						if (EdoCveEdo == CdsCveEdo && MunCveMun == CdsCveMun) {
+							//System.out.println("\t\t" + CdsCveEdo + " " + CdsCveMun + " " + CdsCveCd + " " + CdNombre);
+						}
 					}
 
 				}
