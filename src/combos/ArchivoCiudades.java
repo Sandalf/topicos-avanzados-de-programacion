@@ -36,7 +36,7 @@ public class ArchivoCiudades {
 	}
 	
 	
-	public ArrayList<Ciudad> buscarCiudades(int municipioId) throws Exception {
+	public ArrayList<Ciudad> buscarCiudades(int estadoId, int municipioId) throws Exception {
 		ArrayList<Ciudad> ciudades = new ArrayList<Ciudad>();
 		
 
@@ -52,7 +52,7 @@ public class ArchivoCiudades {
 			ciudad.setCiudadId(archivo.readInt());
 			ciudad.setNombreCiudad(archivo.readUTF());
 			
-			if (ciudad.getMunicipioId() == municipioId) {
+			if (ciudad.getEstadoId() == estadoId && ciudad.getMunicipioId() == municipioId) {
 				ciudades.add(ciudad);
 			}
 		}
@@ -62,6 +62,27 @@ public class ArchivoCiudades {
 	
 	public void reiniciarPuntero() throws IOException {
 		archivo.seek(0);
+	}
+
+	public Ciudad buscarCiudad(Integer estadoId, int municipioId, String nombreCiudad) throws IOException {
+		Ciudad ciudad = new Ciudad();
+		long longitudArchivo = archivo.length();
+		int longitudRenglon = 64;
+		int cantidadRegistros = (int) (longitudArchivo/longitudRenglon);
+
+		reiniciarPuntero();
+		for(int i = 0; i < cantidadRegistros; i++) {
+			ciudad.setEstadoId(archivo.readInt());
+			ciudad.setMunicipioId(archivo.readInt());
+			ciudad.setCiudadId(archivo.readInt());
+			ciudad.setNombreCiudad(archivo.readUTF());
+			
+			if (ciudad.getNombreCiudad().equals(ciudad) && ciudad.getEstadoId() == estadoId && ciudad.getMunicipioId() == municipioId) {
+				return ciudad;
+			}
+		}
+		
+		return null;
 	}
 
 }
