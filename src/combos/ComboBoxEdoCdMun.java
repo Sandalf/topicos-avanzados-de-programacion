@@ -35,12 +35,14 @@ public class ComboBoxEdoCdMun extends JPanel implements ActionListener {
 	//------------------------ANALIZANDO------------------------------------// FALTA ESCUCHADORES
 	public ComboBoxEdoCdMun(String estado) throws Exception{
 		crearInterfazEstados(estado);
+		crearEventos();
 		setVisible(true);
 		
 	}
 	//CONSTRUCTOR 3
 	public ComboBoxEdoCdMun(String estado, String municipio) throws Exception{
 		crearInterfazMunicipios(estado, municipio);
+		crearEventos();
 		setVisible(true);
 		
 	}
