@@ -23,11 +23,8 @@ public class Aplicacion extends JFrame {
 			setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			setLocationRelativeTo(null);
 			setResizable(true);
-			setLayout(new GridLayout(0,3));
+			setLayout(new GridLayout(3,0));
 			comboBoxEdoCdMun = new ComboBoxEdoCdMun();
-//			comboBoxEdoCdMun.setLocation(0,0);
-//			comboBoxEdoCdMun.setSize(300, 60);
-//			comboBoxEdoCdMun.setVisible(true);
 			add(comboBoxEdoCdMun);
 			comboBoxEdoCdMun2 = new ComboBoxEdoCdMun("JALISCO");
 			add(comboBoxEdoCdMun2);
