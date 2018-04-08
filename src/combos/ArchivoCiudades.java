@@ -50,7 +50,7 @@ public class ArchivoCiudades {
 			ciudad.setEstadoId(archivo.readInt());
 			ciudad.setMunicipioId(archivo.readInt());
 			ciudad.setCiudadId(archivo.readInt());
-			ciudad.setNombreCiudad(archivo.readUTF());
+			ciudad.setNombreCiudad(archivo.readUTF().trim());
 			
 			if (ciudad.getEstadoId() == estadoId && ciudad.getMunicipioId() == municipioId) {
 				ciudades.add(ciudad);
@@ -75,9 +75,9 @@ public class ArchivoCiudades {
 			ciudad.setEstadoId(archivo.readInt());
 			ciudad.setMunicipioId(archivo.readInt());
 			ciudad.setCiudadId(archivo.readInt());
-			ciudad.setNombreCiudad(archivo.readUTF());
+			ciudad.setNombreCiudad(archivo.readUTF().trim());
 			
-			if (ciudad.getNombreCiudad().equals(ciudad) && ciudad.getEstadoId() == estadoId && ciudad.getMunicipioId() == municipioId) {
+			if (ciudad.getNombreCiudad().equals(nombreCiudad) && ciudad.getEstadoId() == estadoId && ciudad.getMunicipioId() == municipioId) {
 				return ciudad;
 			}
 		}

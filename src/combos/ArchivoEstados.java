@@ -28,7 +28,7 @@ public class ArchivoEstados {
 		for(int i = 0; i < cantidadRegistros; i++) {
 			Estado estado = new Estado();
 			estado.setEstadoId(archivo.readInt());
-			estado.setNombreEstado(archivo.readUTF());
+			estado.setNombreEstado(archivo.readUTF().trim());
 			estados.add(estado);
 		}
 
@@ -44,7 +44,7 @@ public class ArchivoEstados {
 		reiniciarPuntero();
 		for(int i = 0; i < cantidadRegistros; i++) {
 			estado.setEstadoId(archivo.readInt());
-			estado.setNombreEstado(archivo.readUTF());
+			estado.setNombreEstado(archivo.readUTF().trim());
 			
 			if (estado.getNombreEstado().equals(nombreEstado)) {
 				return estado;

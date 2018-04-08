@@ -18,7 +18,6 @@ public class ArchivoMunicipios {
 		this.archivo = new RandomAccessFile(nombreArchivo,"rw" );
 	}
 	
-	//------------------------------------------------------------------------//
 	public ArrayList<Municipio> leerMunicipios() throws Exception {
 
 		ArrayList<Municipio> municipios = new ArrayList<Municipio>();
@@ -31,14 +30,13 @@ public class ArchivoMunicipios {
 			Municipio municipio = new Municipio();
 			municipio.setEstadoId(archivo.readInt());
 			municipio.setMunicipioId(archivo.readInt());
-			municipio.setNombreMunicipio(archivo.readUTF());
+			municipio.setNombreMunicipio(archivo.readUTF().trim());
 			municipios.add(municipio);
 		}
 
 		return municipios;		
 	}
 	
-	//------------------------------------------------------------------------//
 	public ArrayList<Municipio> buscarMunicipios(int estadoId) throws Exception {
 
 		ArrayList<Municipio> municipios = new ArrayList<Municipio>();
@@ -51,7 +49,7 @@ public class ArchivoMunicipios {
 			Municipio municipio = new Municipio();
 			municipio.setEstadoId(archivo.readInt());
 			municipio.setMunicipioId(archivo.readInt());
-			municipio.setNombreMunicipio(archivo.readUTF());
+			municipio.setNombreMunicipio(archivo.readUTF().trim());
 			if (municipio.getEstadoId() == estadoId) {
 				municipios.add(municipio);
 			}
@@ -60,7 +58,6 @@ public class ArchivoMunicipios {
 		return municipios;		
 	}
 	
-	//------------------------------------------------------------------------//
 	public Municipio buscarMunicipio(int estadoId, String nombreMunicipio) throws Exception {
 		Municipio municipio = new Municipio();
 		long longitudArchivo = archivo.length();
@@ -71,7 +68,7 @@ public class ArchivoMunicipios {
 		for(int i = 0; i < cantidadRegistros; i++) {
 			municipio.setEstadoId(archivo.readInt());
 			municipio.setMunicipioId(archivo.readInt());
-			municipio.setNombreMunicipio(archivo.readUTF());
+			municipio.setNombreMunicipio(archivo.readUTF().trim());
 			
 			if (municipio.getNombreMunicipio().equals(nombreMunicipio) && municipio.getEstadoId() == estadoId) {
 				return municipio;
@@ -81,7 +78,6 @@ public class ArchivoMunicipios {
 		return null;		
 	}
 		
-	//------------------------------------------------------------------------//
 	public void reiniciarPuntero() throws IOException {
 		archivo.seek(0);
 	}
