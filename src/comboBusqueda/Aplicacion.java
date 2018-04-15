@@ -1,12 +1,18 @@
 package comboBusqueda;
 
+import java.awt.GridLayout;
+import java.util.ArrayList;
+
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
-import combos.ComboBoxEdoCdMun;
+import combos.ArchivoEstados;
+import combos.Estado;
 
+@SuppressWarnings("serial")
 public class Aplicacion extends JFrame{
 
+	private ArchivoEstados archivoEstados;
 	private ComboFiltrado comboFiltrado;
 
 	public Aplicacion() {
@@ -15,17 +21,12 @@ public class Aplicacion extends JFrame{
 	}
 
 	public void CrearInterfaz() {
-		try {
-			
-			setSize(300, 300);
+		try {			
+			setSize(300,300);
 			setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			setLocationRelativeTo(null);
-			setResizable(false);
-			setLayout(null);
-			comboFiltrado = new ComboFiltrado();
-			comboFiltrado.setLocation(0,0);
-			comboFiltrado.setSize(300, 60);
-			comboFiltrado.setVisible(true);
+			setLayout(new GridLayout(2, 0));
+			comboFiltrado = new ComboFiltrado(crearElementosEstados());
 			add(comboFiltrado);
 			setVisible(true);
 			
@@ -34,6 +35,16 @@ public class Aplicacion extends JFrame{
 			e.printStackTrace();
 		}
 
+	}
+	
+	public String[] crearElementosEstados() throws Exception {
+		archivoEstados = new ArchivoEstados();
+		ArrayList<Estado> listaEstados = archivoEstados.leerEstados();
+		String[] elementos = new String[listaEstados.size()];
+		for (int i = 0; i < elementos.length; i++) {
+			elementos[i] = listaEstados.get(i).getNombreEstado();
+		}
+		return elementos;
 	}
 
 }
