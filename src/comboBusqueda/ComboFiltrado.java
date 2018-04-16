@@ -74,6 +74,7 @@ public class ComboFiltrado extends JPanel {
 							System.out.println(parametroBusqueda);
 							parametroBusqueda += caracter;
 							filtrarResultados(parametroBusqueda);
+							combo.showPopup();
 						} else if (key.getKeyCode() == KeyEvent.VK_BACK_SPACE) {
 							parametroBusqueda = borrarCaracter(parametroBusqueda);
 							filtrarResultados(parametroBusqueda);
