@@ -70,14 +70,14 @@ public class ComboFiltrado extends JPanel {
 					{		
 						String caracter = Character.toString(key.getKeyChar());
 						String patron = "[a-zA-Z]";
-						if(caracter.matches(patron)) {	
-							System.out.println(parametroBusqueda);
+						if(caracter.matches(patron)) {
 							parametroBusqueda += caracter;
 							filtrarResultados(parametroBusqueda);
 							combo.showPopup();
 						} else if (key.getKeyCode() == KeyEvent.VK_BACK_SPACE) {
 							parametroBusqueda = borrarCaracter(parametroBusqueda);
 							filtrarResultados(parametroBusqueda);
+							combo.showPopup();
 						}
 					}
 				});
