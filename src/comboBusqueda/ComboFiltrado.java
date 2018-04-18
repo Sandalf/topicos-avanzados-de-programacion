@@ -19,7 +19,7 @@ import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 
 @SuppressWarnings("serial")
-public class ComboFiltrado extends JPanel {
+public class ComboFiltrado extends JPanel implements ActionListener {
 
 	private JComboBox<String> combo;
 	private JTextField textField;
@@ -30,6 +30,7 @@ public class ComboFiltrado extends JPanel {
 	private JPanel botonesPanel;
 	private JButton btnOriginal;
 	private JButton btnOrdenar;
+	private boolean ordenado = false;
 
 	public ComboFiltrado(String[] elementosCombo){
 		this.elementosCombo = elementosCombo;
@@ -98,20 +99,8 @@ public class ComboFiltrado extends JPanel {
             }
         });
 	
-		btnOriginal.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				cargarElementosOriginales();
-			}			
-		});
-		
-		btnOrdenar.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				cargarElementosOrdenados();
-			}
-			
-		});
+		btnOriginal.addActionListener(this);	
+		btnOrdenar.addActionListener(this);
 	}
 
 	public void filtrarResultados(String parametroBusqueda) {
@@ -128,7 +117,11 @@ public class ComboFiltrado extends JPanel {
 		for (int i = 0; i < elementosFiltrados.size(); i++) {
 			elementos[i] = elementosFiltrados.get(i);
 		}
-
+		
+		if(ordenado) {
+			Arrays.sort(elementos);
+		}
+		
 		modelo = new DefaultComboBoxModel<String>(elementos);
 		combo.setModel(modelo);
 		comboBoxEditor.setItem(new String(parametroBusqueda));
@@ -162,6 +155,19 @@ public class ComboFiltrado extends JPanel {
 			return elementos;
 		} else {
 			return new String[]{};
+		}
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		if(e.getSource() instanceof JButton) {
+			if(e.getSource() == btnOriginal) {
+				ordenado = false;
+				cargarElementosOriginales();
+			} else if(e.getSource() == btnOrdenar) {
+				ordenado = true;
+				cargarElementosOrdenados();
+			}
 		}
 	}
 
