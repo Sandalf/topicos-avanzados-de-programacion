@@ -3,10 +3,14 @@ package comboBusqueda;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -19,7 +23,7 @@ import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 
 @SuppressWarnings("serial")
-public class ComboFiltrado extends JPanel implements ActionListener {
+public class ComboFiltrado extends JPanel implements ActionListener, MouseListener, KeyListener, FocusListener {
 
 	private JComboBox<String> combo;
 	private JTextField textField;
@@ -61,46 +65,12 @@ public class ComboFiltrado extends JPanel implements ActionListener {
 	}
 
 	public void crearEventos() {
-		textField.addKeyListener(new KeyAdapter()
-		{
-			public void keyReleased(KeyEvent key)
-			{
-				SwingUtilities.invokeLater(new Runnable()
-				{
-					public void run()
-					{		
-						String caracter = Character.toString(key.getKeyChar());
-						String patron = "[a-zA-Z]";
-						if(caracter.matches(patron)) {
-							parametroBusqueda += caracter;
-							filtrarResultados(parametroBusqueda);
-							combo.showPopup();
-						} else if (key.getKeyCode() == KeyEvent.VK_BACK_SPACE) {
-							parametroBusqueda = borrarCaracter(parametroBusqueda);
-							filtrarResultados(parametroBusqueda);
-							combo.showPopup();
-						}
-					}
-				});
-			}
-		});
-		
-		textField.addMouseListener(new MouseAdapter(){
-            @Override
-            public void mouseClicked(MouseEvent e){
-	            	SwingUtilities.invokeLater(new Runnable()
-				{
-					public void run()
-					{	
-						parametroBusqueda = textField.getText();
-						textField.setCaretPosition(parametroBusqueda.length());
-					}
-				});    		
-            }
-        });
-	
+		textField.addKeyListener(this);		
+		textField.addMouseListener(this);
+		textField.addFocusListener(this);
 		btnOriginal.addActionListener(this);	
 		btnOrdenar.addActionListener(this);
+		combo.addActionListener(this);
 	}
 
 	public void filtrarResultados(String parametroBusqueda) {
@@ -127,11 +97,18 @@ public class ComboFiltrado extends JPanel implements ActionListener {
 		comboBoxEditor.setItem(new String(parametroBusqueda));
 	}
 	
-	public String borrarCaracter(String str) {
-	    if (str != null && str.length() > 0) {
-	        str = str.substring(0, str.length() - 1);
+	public String borrarCaracter() {
+		String cadenaOriginal = parametroBusqueda;
+		String cadenaModificada = "";
+		int posicionCursor = textField.getCaretPosition();
+	    if (cadenaOriginal != null && cadenaOriginal.length() > 0) {
+	    		for(int i = 0; i < cadenaOriginal.length(); i++) {
+	    			if(i != posicionCursor) {
+	    				cadenaModificada += cadenaOriginal.charAt(i);
+	    			}
+	    		}
 	    }
-	    return str;
+	    return cadenaModificada;
 	}
 	
 	public void cargarElementosOriginales() {
@@ -168,7 +145,58 @@ public class ComboFiltrado extends JPanel implements ActionListener {
 				ordenado = true;
 				cargarElementosOrdenados();
 			}
+		} else if(e.getSource() instanceof JComboBox) {
+			if(e.getSource() == combo) {
+				parametroBusqueda = textField.getText();
+			}
 		}
+	}
+
+	@Override
+	public void keyTyped(KeyEvent e) { }
+
+	@Override
+	public void keyPressed(KeyEvent e) { }
+
+	@Override
+	public void keyReleased(KeyEvent key) {
+		String caracter = Character.toString(key.getKeyChar());
+		String patron = "[a-zA-Z]";
+		if(caracter.matches(patron)) {
+			parametroBusqueda += caracter;
+			filtrarResultados(parametroBusqueda);
+			combo.showPopup();
+		} else if (key.getKeyCode() == KeyEvent.VK_BACK_SPACE) {
+			parametroBusqueda = borrarCaracter();
+			filtrarResultados(parametroBusqueda);
+			combo.showPopup();
+		}	
+	}
+
+	@Override
+	public void mouseClicked(MouseEvent e) {
+			parametroBusqueda = textField.getText();		
+	}
+
+	@Override
+	public void mousePressed(MouseEvent e) {	}
+
+	@Override
+	public void mouseReleased(MouseEvent e) { }
+
+	@Override
+	public void mouseEntered(MouseEvent e) { }
+
+	@Override
+	public void mouseExited(MouseEvent e) { }
+
+	@Override
+	public void focusGained(FocusEvent e) {
+			parametroBusqueda = textField.getText();
+	}
+
+	@Override
+	public void focusLost(FocusEvent e) {
 	}
 
 }
