@@ -160,6 +160,9 @@ public class ComboBoxEdoCdMun extends JPanel implements ActionListener {
 			if (e.getSource() == comBoxEstados) {
 				String nombreEstado = (String) comBoxEstados.getSelectedItem();
 				seleccionarEstado(nombreEstado);
+				
+				comBoxMunicipios.setSelectedIndex(0);
+				
 			} else if (e.getSource() == comBoxMunicipios) {
 				String nombreMunicipio = (String) comBoxMunicipios.getSelectedItem();
 				seleccionarMuncipio(nombreMunicipio);
@@ -250,6 +253,9 @@ public class ComboBoxEdoCdMun extends JPanel implements ActionListener {
 	
 	public void reiniciarCombo(JComboBox<String> comboBox) {
 		DefaultComboBoxModel<String> modelo = new DefaultComboBoxModel<String>(new String[]{ opcionDefault });
+		
+		
+		comboBox.removeAllItems();
 		comboBox.setModel(modelo);
 		comboBox.setEnabled(false);
 	}
